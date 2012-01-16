@@ -1,0 +1,99 @@
+= Ruby2xlsx
+
+Export your data to Excel. Provide two ways for export data: template or renderer.
+
+== Install
+
+This is very simple (Rails 3 only):
+
+  gem "ruby2xlsx"
+
+== Usage
+
+You can use two types: template and renderer.
+
+=== Renderer
+
+  def index
+    @articles = Article.order('id DESC')
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.xlsx { render xlsx: @articles }
+    end
+  end
+
+With options:
+
+  format.xlsx { render xlsx: @articles, 
+    :columns => [:id, :title, :updated_at], 
+    :filename => ["articles_", Time.now.to_s, ".xlsx"].join,
+    :worksheet_name => "My articles" }
+
+=== Template
+
+In controller (app/controllers/articles_controller.rb):
+
+  class ArticlesController < ApplicationController
+    respond_to :xlsx, :only => [:index]
+    
+    def index
+      @articles = Article.order('id DESC')
+      respond_with(@articles)
+    end
+  end
+
+In view (app/views/articles/index.xlsx.xrb):
+  
+  add_worksheet "Data"
+
+  bold = add_format(:bold => 1)
+  headings = [ 'Title', 'Views', 'Comments' ]
+  
+  write('A1', headings, bold)
+
+  @articles.each_with_index do |article, index|
+    row = index + 1
+    write(row, 0, article.title)
+    write(row, 1, article.views_count)
+    write(row, 2, article.comments_count)
+  end
+  
+  chart4 = add_chart(:name => 'Results Chart', :type => 'Chart::Area')
+
+  # Configure the series.
+  chart4.add_series(
+      :categories => '=Sheet1!$A$2:$A$7',
+      :values => '=Sheet1!$B$2:$B$7',
+      :name => 'Test data series 1'
+  )
+
+  # Add another series.
+  chart4.add_series(
+      :categories => '=Sheet1!$A$2:$A$7',
+      :values => '=Sheet1!$C$2:$C$7',
+      :name => 'Test data series 2'
+  )
+
+  # Add some labels.
+  chart4.set_title( :name => 'Results of sample analysis' )
+  chart4.set_x_axis( :name => 'Sample number' )
+  chart4.set_y_axis( :name => 'Sample length' )
+
+== Dependencies
+
+1. https://github.com/cxn03651/writeexcel
+2. https://rubygems.org/gems/activemodel
+
+== Other similar gems
+
+1. https://github.com/arydjmal/to_xls
+2. https://github.com/xinuc/ekuseru
+3. https://github.com/harvesthq/simple_xlsx_writer
+4. https://github.com/stevo/excellent
+5. https://github.com/asanghi/excel_rails
+6. https://github.com/rdavila/active_record_to_excel
+7. https://github.com/liangwenke/to_xls-rails
+
+
+This project rocks and uses MIT-LICENSE.

@@ -1,0 +1,55 @@
+add_worksheet "Sheet1"
+
+bold = add_format(:bold => 1)
+
+# Add the worksheet data that the charts will refer to.
+headings = [ 'Category', 'Values 1', 'Values 2' ]
+data = [
+    [ 2, 3, 4, 5, 6, 7 ],
+    [ 1, 4, 5, 2, 1, 5 ],
+    [ 3, 6, 7, 5, 4, 3 ]
+]
+
+write('A1', headings, bold)
+write('A2', data)
+
+@articles.each_with_index do |article, index|
+  row = index + 10
+  write(row, 0, article.id)
+  write(row, 1, article.title)
+  write(row, 2, article.created_at)
+end
+
+chart1 = add_chart(:type => 'Chart::Area')
+# Add values only. Use the default categories.
+chart1.add_series( :values => '=Sheet1!$B$2:$B$7' )
+
+chart2 = add_chart(:type => 'Chart::Area')
+
+# Configure the series.
+chart2.add_series(
+    :categories => '=Sheet1!$A$2:$A$7',
+    :values => '=Sheet1!$B$2:$B$7',
+    :name => 'Test data series 1'
+)
+
+chart4 = add_chart(:name => 'Results Chart', :type => 'Chart::Area')
+
+# Configure the series.
+chart4.add_series(
+    :categories => '=Sheet1!$A$2:$A$7',
+    :values => '=Sheet1!$B$2:$B$7',
+    :name => 'Test data series 1'
+)
+
+# Add another series.
+chart4.add_series(
+    :categories => '=Sheet1!$A$2:$A$7',
+    :values => '=Sheet1!$C$2:$C$7',
+    :name => 'Test data series 2'
+)
+
+# Add some labels.
+chart4.set_title( :name => 'Results of sample analysis' )
+chart4.set_x_axis( :name => 'Sample number' )
+chart4.set_y_axis( :name => 'Sample length (cm)' )

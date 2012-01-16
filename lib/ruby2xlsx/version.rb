@@ -1,0 +1,3 @@
+module Ruby2xlsx
+  VERSION = "0.0.1".freeze
+end
