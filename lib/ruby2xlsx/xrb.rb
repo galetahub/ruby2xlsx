@@ -6,7 +6,7 @@ module Ruby2xlsx
 
     def call(template)
       %{ controller.send_data ::Ruby2xlsx::Template.new(#{template.source.inspect}).render(self, assigns.merge(local_assigns)),
-          :filename => [controller.action_name, ".xlsx"].join, 
+          :filename => [controller.action_name, ".xls"].join, 
           :type => "application/vnd.ms-excel", 
           :disposition => "attachment" }
     end
