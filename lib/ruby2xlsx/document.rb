@@ -10,10 +10,13 @@ module Ruby2xlsx
         columns_names.each_with_index do |column, num|
           value = record.send(column)
           
-          if value.is_a?(Date)
+          case value
+          when Date then 
             worksheet.write_string(row, num, value.strftime("%Y-%m-%dT"), date_format)
-          elsif value.is_a?(DateTime) || value.is_a?(Time)
+          when DateTime, Time then 
             worksheet.write_date_time(row, num, value.strftime("%Y-%m-%dT%H:%M:%S.%L"), time_format)
+          when String then
+            worksheet.write_string(row, num, value)
           else
             worksheet.write(row, num, value)
           end

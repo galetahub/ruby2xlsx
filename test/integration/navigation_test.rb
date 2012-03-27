@@ -17,7 +17,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     click_link 'Excel'
     
     assert_equal 'binary', headers['Content-Transfer-Encoding']
-    assert_equal 'attachment; filename="articles.xlsx"', headers['Content-Disposition']
+    assert_equal 'attachment; filename="articles.xls"', headers['Content-Disposition']
     assert_equal 'application/vnd.ms-excel', headers['Content-Type']
   end
   
@@ -25,7 +25,7 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit '/another.xlsx'
     
     assert_equal 'binary', headers['Content-Transfer-Encoding']
-    assert_equal 'attachment; filename="another.xlsx"', headers['Content-Disposition']
+    assert_equal 'attachment; filename="another.xls"', headers['Content-Disposition']
     assert_equal 'application/vnd.ms-excel', headers['Content-Type']
   end
 
@@ -33,7 +33,17 @@ class NavigationTest < ActiveSupport::IntegrationCase
     visit '/empty.xlsx'
     
     assert_equal 'binary', headers['Content-Transfer-Encoding']
-    assert_equal 'attachment; filename="ruby2xlsx_defaults.xlsx"', headers['Content-Disposition']
+    assert_equal 'attachment; filename="ruby2xlsx_defaults.xls"', headers['Content-Disposition']
+    assert_equal 'application/vnd.ms-excel', headers['Content-Type']
+  end
+  
+  test 'should encode special charsets' do
+    Article.create(:title => '(")")')
+    
+    visit '/articles.xlsx'
+    
+    assert_equal 'binary', headers['Content-Transfer-Encoding']
+    assert_equal 'attachment; filename="articles.xls"', headers['Content-Disposition']
     assert_equal 'application/vnd.ms-excel', headers['Content-Type']
   end
 
