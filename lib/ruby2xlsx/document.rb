@@ -47,7 +47,7 @@ module Ruby2xlsx
     
     def each_with_index
       count = 0
-      if @source.is_a?(::ActiveRecord::Relation)
+      if defined?(ActiveRecord) && @source.is_a?(::ActiveRecord::Relation)
         @klass ||= @source.klass
         
         @source.find_each do |item|
