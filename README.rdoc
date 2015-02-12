@@ -39,6 +39,8 @@ In controller (app/controllers/articles_controller.rb):
     
     def index
       @articles = Article.order('id DESC')
+      @xlsx_filename = "some_file_name"
+      
       respond_with(@articles)
     end
   end
