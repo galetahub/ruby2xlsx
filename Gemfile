@@ -1,6 +1,6 @@
 source "http://rubygems.org"
 
-gem "rails", "~> 3.1.3"
+gem "rails", "~> 3.2.22.5"
 
 # Declare your gem's dependencies in ruby2xlsx.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -17,4 +17,3 @@ gem "jquery-rails"
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-gem "launchy"

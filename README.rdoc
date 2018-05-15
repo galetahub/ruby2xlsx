@@ -4,7 +4,7 @@ Export your data to Excel. Provide two ways for export data: template or rendere
 
 == Install
 
-This is very simple (Rails 3 only):
+Add gem to your Gemfile:
 
   gem "ruby2xlsx"
 
@@ -25,8 +25,8 @@ You can use two types: template and renderer.
 
 With options:
 
-  format.xlsx { render xlsx: @articles, 
-    :columns => [:id, :title, :updated_at], 
+  format.xlsx { render xlsx: @articles,
+    :columns => [:id, :title, :updated_at],
     :filename => ["articles_", Time.now.to_s, ".xlsx"].join,
     :worksheet_name => "My articles" }
 
@@ -36,22 +36,22 @@ In controller (app/controllers/articles_controller.rb):
 
   class ArticlesController < ApplicationController
     respond_to :xlsx, :only => [:index]
-    
+
     def index
       @articles = Article.order('id DESC')
       @xlsx_filename = "some_file_name"
-      
+
       respond_with(@articles)
     end
   end
 
 In view (app/views/articles/index.xlsx.xrb):
-  
+
   add_worksheet "Data"
 
   bold = add_format(:bold => 1)
   headings = [ 'Title', 'Views', 'Comments' ]
-  
+
   write('A1', headings, bold)
 
   @articles.each_with_index do |article, index|
@@ -60,7 +60,7 @@ In view (app/views/articles/index.xlsx.xrb):
     write(row, 1, article.views_count)
     write(row, 2, article.comments_count)
   end
-  
+
   chart4 = add_chart(:name => 'Results Chart', :type => 'Chart::Area')
 
   # Configure the series.

@@ -11,28 +11,28 @@ module Ruby2xlsx
       @compiled = false
       @io = ::StringIO.new
     end
-    
+
     def workbook
       @workbook ||= ::WriteExcel.new(@io)
     end
-    
+
     def worksheet
       @worksheet ||= add_worksheet(worksheet_name)
     end
-    
+
     def add_worksheet(*args)
       @worksheet = workbook.add_worksheet(*args)
     end
-    
+
     def render(*args)
       workbook.close
       @io.string
     end
-    
+
     def worksheet_name
-      "somename"
+      'somename'
     end
-    
+
     def method_missing(m, *args, &block)
       if worksheet.respond_to?(m)
         worksheet.send(m, *args, &block)

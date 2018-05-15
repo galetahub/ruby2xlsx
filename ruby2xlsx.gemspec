@@ -11,13 +11,13 @@ Gem::Specification.new do |s|
   s.email       = ["galeta.igor@gmail.com"]
   s.homepage    = "https://github.com/galetahub/ruby2xlsx"
   s.summary     = "Export your data to Excel. Provide two ways for export data: template or renderer."
-  s.description = "Another gem for exporting data to Excel"
+  s.description = "Another gem for easy exporting data to Excel"
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "writeexcel", "~> 0.6.12"
-  s.add_dependency "activemodel"
+  s.add_dependency "writeexcel", ">= 1.0.5"
+  s.add_dependency "activemodel", ">= 3.1.3"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "capybara", "~> 1.1.2"
