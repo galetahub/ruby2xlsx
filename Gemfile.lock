@@ -107,7 +107,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.54)
+    tzinfo (0.3.61)
     websocket (1.2.5)
     writeexcel (1.0.5)
     xpath (0.1.4)
